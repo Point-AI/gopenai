@@ -32,7 +32,6 @@ const (
 	ModelAdaEmbeddingV2        = "text-embedding-ada-002"
 )
 
-
 type CreateEmbeddingsRequest struct {
 	Model string   `json:"model"`
 	Input []string `json:"input"`
