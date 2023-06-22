@@ -40,16 +40,37 @@ const API_KEY = "openai-api-key"
 func main() {
 	client := gopenai.NewClient(API_KEY)
 
-	resp, err := client.CreateEmbeddings(context.Background(), gopenai.CreateEmbeddingsRequest{
-		Model: gopenai.ModelAdaEmbeddingV2,
-		Input: []string{"Hello Wolrd"},
+	response, err := client.CreateChatCompletion(context.Background(), gopenai.ChatCompletionRequest{
+		Model: gopenai.ModelGPT3Dot5Turbo,
+		Messages: []gopenai.ChatCompletionMessage{
+			{
+				Role:    gopenai.ChatMessageRoleSystem,
+				Content: "You are intelligent assistant!",
+			},
+			{
+				Role:    gopenai.ChatMessageRoleUser,
+				Content: "What is the capital of great britain?",
+			},
+			{
+				Role:    gopenai.ChatMessageRoleAssistant,
+				Content: "London is capital of Great Britain",
+			},
+			{
+				Role:    gopenai.ChatMessageRoleUser,
+				Content: "What is the population of that country?",
+			},
+		},
+		Temperature: 0.5,
 	})
-
 	if err != nil {
-		log.Fatalf("error on request: %v", err)
+		log.Fatalf("error while http request: %v", err)
 	}
 
-	fmt.Println(resp.Data)
-
+	fmt.Println(response.Choices[0].Message.Content)
 }
+```
+
+Output:
+```shell
+As of 2021, the estimated population of the United Kingdom is around 68 million people.
 ```

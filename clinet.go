@@ -12,13 +12,13 @@ import (
 type Client struct {
 	authApiToken string
 
-	HTTPClient *http.Client
+	httpClient *http.Client
 }
 
 func NewClient(authToken string) *Client {
 	return &Client{
 		authApiToken: authToken,
-		HTTPClient:   &http.Client{},
+		httpClient:   &http.Client{},
 	}
 }
 
@@ -26,7 +26,7 @@ func (c *Client) makeRequest(httpRequest *http.Request, response any) error {
 	httpRequest.Header.Set("Content-Type", "application/json")
 	httpRequest.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.authApiToken))
 
-	httpResponse, err := c.HTTPClient.Do(httpRequest)
+	httpResponse, err := c.httpClient.Do(httpRequest)
 	if err != nil {
 		return err
 	}
